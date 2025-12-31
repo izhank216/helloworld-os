@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install LLVM (includes lld)
         run: |
@@ -25,3 +25,9 @@ jobs:
 
       - name: List output
         run: ls -l hello64.efi
+
+      - name: Upload UEFI .efi artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello64-efi
+          path: hello64.efi
