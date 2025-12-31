@@ -1,0 +1,27 @@
+# .github/workflows/build-uefi-linux.yml
+name: Build UEFI Hello World
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install LLVM (includes lld)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y llvm lld
+
+      - name: Link UEFI .obj to .efi
+        run: |
+          lld-link /subsystem:efi_application /entry:UefiMain /out:hello64.efi hello64.obj
+
+      - name: List output
+        run: ls -l hello64.efi
